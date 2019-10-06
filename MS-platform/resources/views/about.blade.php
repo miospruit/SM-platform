@@ -11,9 +11,10 @@
     <form action="" method="POST">
 
         <input type="text">
-        
+
 
     <form>
         <a class="button is-success">Success</a>
+
 
 @endsection

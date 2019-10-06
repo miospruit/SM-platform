@@ -15,20 +15,14 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('discription');
-            $table->text('photo');
-            $table->timestamp('added_on');
-            $table->float('geolocation');
+            $table->text('User_id');
+            $table->text('Path');
+            $table->text('Discription');
+            $table->timestamp('Added_on');
+            $table->float('Geolocation');
             $table->timestamps();
         });
     }
-
-    // - id
-	// - user_id
-	// - Photo
-	// - Date
-	// - discription
-    // - Location
 
     /**
      * Reverse the migrations.
