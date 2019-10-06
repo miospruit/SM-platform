@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhotoTable extends Migration
+class CreateFollowersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,16 @@ class CreatePhotoTable extends Migration
      */
     public function up()
     {
-        Schema::create('photo', function (Blueprint $table) {
+        Schema::create('followers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('discription');
-            $table->text('photo');
-            $table->timestamp('added_on');
-            $table->float('geolocation');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('follower_id')->unsigned();
+            
+            $table->boolean('can_follow')->default(true);
             $table->timestamps();
         });
     }
-
-    // - id
-	// - user_id
-	// - Photo
-	// - Date
-	// - discription
-    // - Location
 
     /**
      * Reverse the migrations.
@@ -37,6 +31,6 @@ class CreatePhotoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photo');
+        Schema::dropIfExists('followers');
     }
 }

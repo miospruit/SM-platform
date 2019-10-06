@@ -8,4 +8,12 @@
     Dolore obcaecati fuga, sunt iusto reprehenderit quia molestiae necessitatibus nobis dolores,
     animi eligendi beatae ex ducimus libero sint facere fugit nesciunt veniam.</p>
 
+    <form action="" method="POST">
+
+        <input type="text">
+        
+
+    <form>
+        <a class="button is-success">Success</a>
+
 @endsection
