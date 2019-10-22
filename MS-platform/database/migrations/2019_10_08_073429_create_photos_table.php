@@ -15,9 +15,10 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name', 100)->nullable()->default('text');
-            $table->text('description')->nullable()->default('text');
+            $table->unsignedInteger('user_id');
+            $table->string('title', 100)->default('Title');
+            $table->text('description')->default('text');
+            $table->string('image');
             $table->timestamps();
         });
     }
