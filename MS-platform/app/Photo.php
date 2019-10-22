@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
 {
+    protected $table = "photos";
+
     protected $fillable = [
         'user_id',
         'title',
