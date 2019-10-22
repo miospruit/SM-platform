@@ -38,9 +38,12 @@
 
                 <div id="navMenu" class="navbar-menu">
                   <div class="navbar-start">
-                    {{-- <a class="navbar-item" href="/home">
-                      Home
-                    </a> --}}
+                    <a class="navbar-item" href="/photos/create">
+                      Create new post
+                    </a>
+                    <a class="navbar-item" href="/photos">
+                        Wall
+                      </a>
 
                     <hr class="navbar-divider">
 
@@ -50,10 +53,10 @@
                       </a>
 
                       <div class="navbar-dropdown">
-                        <a class="navbar-item" href="/about">
-                          About
+                        <a class="navbar-item" href="/account">
+                          Account
                         </a>
-                        <a class="navbar-item" href="/contact">
+                        <a class="navbar-item" href="/layouts/app">
                           Contact
                         </a>
                       </div>
@@ -65,12 +68,10 @@
                         <div class="buttons">
                         @guest
                         @if (Route::has('register'))
-                            <strong>
-                                <a class="button is-primary" href="{{ route('register') }}">
-                                    {{ __('Register') }}
-                                    {{-- <strong>Sign up</strong> --}}
-                                </a>
-                            </strong>
+                            <a class="button is-primary" href="{{ route('register') }}">
+                                {{ __('Register') }}
+                                {{-- <strong>Sign up</strong> --}}
+                            </a>
                         @endif
                             <a class="button is-light" href="{{ route('login') }}">
                                 {{ __('Login') }}
