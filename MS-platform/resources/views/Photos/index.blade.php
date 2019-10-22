@@ -31,7 +31,7 @@
                                     </figure>
                                 </div>
                                 <div class="media-content">
-                                    <a href=""><p class="title is-4">{{$photo->title}}</p></a>
+                                    <a href="/photos/{{$photo->id}}"><p class="title is-4">{{$photo->title}}</p></a>
                                     <p class="subtitle is-6">{{$photo->user->name}}</p>
                                 </div>
                             </div>
