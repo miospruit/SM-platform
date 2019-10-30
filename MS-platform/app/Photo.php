@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class Photo extends Model
 {
     protected $table = "photos";
+    protected $with = ['user'];
 
     protected $fillable = [
         'user_id',
@@ -16,7 +17,7 @@ class Photo extends Model
         'image'
     ];
 
-    public function user()
+    public function User()
     {
         return $this->belongsTo(User::class);
     }
@@ -26,7 +27,7 @@ class Photo extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function Like()
+    public function Likes()
     {
         return $this->hasMany(Like::class);
     }
