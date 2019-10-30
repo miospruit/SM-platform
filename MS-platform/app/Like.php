@@ -8,11 +8,11 @@ class Like extends Model
 {
     public function Photo()
     {
-        return $this->belongsTo('App\Photo');
+        return $this->belongsTo(Photo::class);
     }
 
-    public function user()
+    public function User()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }
