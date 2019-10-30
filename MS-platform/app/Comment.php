@@ -15,6 +15,11 @@ class Comment extends Model
     ];
     public function Photo()
     {
-        return $this->belongsTo('App/Photo');
+        return $this->belongsTo(Photo::class);
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
     }
 }
