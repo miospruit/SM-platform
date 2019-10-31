@@ -17,7 +17,11 @@ Route::get('/', 'PagesController@home');
 
 // Route::resource('users', 'UserController');
 Route::resource('/photos', 'PhotoController');
-Route::resource('/comments', 'CommentController');
+Route::resource(
+    '/comment',
+    'CommentController',
+    ['only' => ['store', 'show', 'edit', 'delete']]
+);
 Route::resource('/likes', 'LikeController');
 
 Auth::routes();
