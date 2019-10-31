@@ -96,8 +96,8 @@ class PhotoController extends Controller
         // if (Auth::user()->id == $photo->user_id) {
         // return true;
         // }
-        $comments = $photo->comments;
-        return view('photos.show', compact('photo', 'comments'));
+        // $comments = $photo->comments;
+        return view('photos.show', compact('photo'));
         // return false;
     }
 
