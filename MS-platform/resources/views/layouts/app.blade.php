@@ -13,6 +13,8 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="https://kit.fontawesome.com/e9839cb680.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        {{-- <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> --}}
 
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -55,19 +57,25 @@
                             <a class="navbar-link">
                                 More
                             </a>
-
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="/account">
-                                    Account
-                                </a>
-                                <a class="navbar-item" href="/layouts/app">
-                                    Contact
-                                </a>
-                            </div>
                         </div>
                     </div>
 
                     <div class="navbar-end">
+                        <div class="navbar-item">
+                            <form action="{{route('photo.search')}}" method="get">
+                                @csrf
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <input class="input" name="search" type="text" placeholder="Search" required>
+                                    </div>
+                                    <div class="control">
+                                        <button type="submit" class="button is-primary">
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                        </div>
+                        </form>
                         <div class="navbar-item">
                             <div class="buttons">
                                 @guest
@@ -97,6 +105,8 @@
                                         style="display: none;">
                                         @csrf
                                     </form>
+                                    <a href="{{ route('users.edit', $currentUser) }}" class="navbar-item">Edit
+                                        profile</a>
                                 </div>
 
                                 @endguest

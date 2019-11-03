@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use Auth;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -36,6 +37,19 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //
+
+        $validatedData = $request->validate([
+            'description' => 'required',
+            'photo_id' => 'required'
+        ]);
+
+        Comment::create([
+            'user_id' => Auth::user()->id,
+            'photo_id' => $request->photo_id,
+            'description' => $request->description
+        ]);
+
+        return redirect('photos/' . $request->photo_id);
     }
 
     /**
@@ -80,6 +94,11 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        dd($comment);
+        if ($comment->user == Auth::user()->id) {
+
+            $comment->delete();
+        }
+        return back();
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Like;
+use Illuminate\Support\Arr;
 use App\Photo;
+use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -20,12 +22,39 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
+
+        $photos = Photo::withCount('likes',)->get();
+        $countPhotos = $photos->count();
+        return view('photos.index', compact("photos", 'countPhotos'));
+
+
+        // $photos = Photo::all();
+        // $photos = Photo::withCount('likes')->with('user')->get();
+        // dd($photos);
+
 
         // dd($photos);
-        return view('photos.index', compact("photos"));
         // return view('photos.index');
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+
+
+        // dd($search);
+        $photos = Photo::where('title', 'like', '%' . $search . '%')->orWhere('description', 'like', '%' . $search . '%')->get();
+        $countPhotos = $photos->count();
+        if ($countPhotos < 3) {
+            $countPhotos = 1;
+        } else {
+            $countPhotos = 3;
+        }
+        // dd($countPhotos);
+        // dd($photos);
+        return view('photos.index', compact('photos', 'countPhotos'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -54,8 +83,8 @@ class PhotoController extends Controller
 
             //validate request if data is correct
             $validatedData = $request->validate([
-                'title' => ['required', 'max:255'],
-                'description' => ['required'],
+                'title' => ['required', 'max:255', 'regex:[A-Za-z1-9 ]'],
+                'description' => ['required', 'regex:[A-Za-z1-9 ]'],
                 'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
             ]);
 
@@ -90,15 +119,12 @@ class PhotoController extends Controller
      * @param  \App\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function show(Photo $photo)
+    public function show(Photo $photo, Like $like)
     {
+        $photo = Photo::with(['comments', 'comments.user', 'likes.user', 'likes'])->first();
 
-        // if (Auth::user()->id == $photo->user_id) {
-        // return true;
-        // }
-        // $comments = $photo->comments;
-        return view('photos.show', compact('photo'));
-        // return false;
+        $likes = Photo::withCount('likes')->first();
+        return view('photos.show', compact('photo', 'likes'));
     }
 
     /**
@@ -109,21 +135,6 @@ class PhotoController extends Controller
      */
     public function edit(Photo $photo)
     {
-        // If user is administrator, then can edit any post
-        // if ($user->isModerator()) {
-        //     return true;
-        // }
-
-        // Check if user is the post author
-        // if (Auth::user()->id == $photo->user_id) {
-        // // dd(Auth::user()->id);
-        //     return true;
-        // }
-
-        // return false;
-        // add check of role and person
-        // $photo = Photo::find($photo);
-        // dd($photo);
         return view('photos.edit', compact('photo'));
     }
 
@@ -138,13 +149,13 @@ class PhotoController extends Controller
     {
 
         request()->validate([
-            'title' => 'required',
-            'description' => 'required'
+            'title' => ['required', 'max:255', 'regex:[A-Za-z1-9 ]'],
+            'description' => ['required', 'regex:[A-Za-z1-9 ]'],
         ]);
 
         $photo->update(request(['title', 'description']));
 
-        return redirect('/photos');
+        return redirect('photos/' . $photo->id);
     }
 
     /**
@@ -153,10 +164,24 @@ class PhotoController extends Controller
      * @param  \App\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Photo $photo)
+    public function destroy(Photo $photo, Request $request)
     {
         $photo->delete();
 
         return redirect('/photos');
+    }
+
+    public function likePhoto(Photo $photo)
+    {
+        $photo->like();
+        return back();
+    }
+
+    public function deleteLike(Photo $photo, Request $request)
+    {
+        $userId = Auth::user()->id;
+        $deleteLike = $photo->likes->where('user_id', $userId)->first();
+        $deleteLike->delete();
+        return back();
     }
 }

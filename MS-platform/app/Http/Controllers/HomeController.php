@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('/');
+        $user = Auth::user();
+        return view('/', contact(''));
+    }
+
+    public function admin(User $user)
+
+    {
+        $users = User::with('photos')->get();
+        // dd($users);
+
+        return view('admin', compact('users'));
     }
 }

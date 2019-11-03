@@ -9,7 +9,7 @@ class Like extends Model
     protected $fillable = [
         'user_id',
         'photo_id',
-        'confurmed'
+        'confirmed'
     ];
     public function Photo()
     {
